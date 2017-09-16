@@ -10,6 +10,11 @@ app.config(function($routeProvider, $locationProvider){
         controller: 'itemCtrl',
         controllerAs: 'ctrl'
     });
+    $routeProvider.when('/item/:id', {
+        templateUrl: '/itemInfo.html',
+        controller: 'itemInfoCtrl',
+        controllerAs: 'ctrl'
+    });
     $routeProvider.when('/category', {
         templateUrl: '/category.html',
         controller: 'categoryCtrl',

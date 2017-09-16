@@ -1,4 +1,4 @@
-app.controller('itemCtrl', function($scope, $filter, $http){
+app.controller('itemCtrl', function($scope, $filter, $http, $location){
     var vm = this;
     vm.items = []
     vm.categories = [];
@@ -15,6 +15,12 @@ app.controller('itemCtrl', function($scope, $filter, $http){
         {label: 'name', value: 'name'},
         {label: 'price', value: 'price'}
     ];
+    vm.closeItem = function(){
+        delete vm.selectedItem;
+    }
+    vm.show = function(item){
+        $location.url(`/item/${item._id}`);
+    }
     vm.ascSort = function(field){
         console.log(field);
         vm.items.sort(function(e1, e2){

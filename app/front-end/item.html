@@ -34,6 +34,23 @@
         </form>
     </div>
 </div>
+<div ng-show="ctrl.selectedItem" class="modal">
+    <div class="modal-content">
+       <div class="row">
+            <div class="col-4">Category:</div>
+            <div class="col-8">{{ctrl.selectedItem.category.name}}</div>
+            <div class="col-4">Name:</div>
+            <div class="col-8">{{ctrl.selectedItem.name}}</div>
+            <div class="col-4">Price:</div>
+            <div class="col-8">{{ctrl.selectedItem.price}}</div>
+            <div class="col-4">Size:</div>
+            <div class="col-8">{{ctrl.selectedItem.size}}</div>
+            <div class="col-12">
+                <button class="btn btn-outline-success btn-sm" ng-click="ctrl.closeItem()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-2">
         <div class="row">
@@ -75,6 +92,8 @@
                 <td>{{itemElem.price | uah}}</td>
                 <td>{{itemElem.size}}</td>
                 <td>
+                   <button class="btn btn-outline-success btn-sm" ng-click="ctrl.show(itemElem)">Show</button>
+                   <button class="btn btn-outline-success btn-sm" ng-click="ctrl.selectedItem = itemElem">See</button>
                     <button class="btn btn-outline-warning btn-sm" ng-click="ctrl.update(itemElem)">Update</button>
                     <button class="btn btn-outline-danger btn-sm" ng-click="ctrl.delete(itemElem._id)">Delete</button>
                 </td>

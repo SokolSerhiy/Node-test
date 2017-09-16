@@ -9,8 +9,7 @@ var cookieParser = require('cookie-parser');
 mongoose.Promise = global.Promise;
 var BD_URI = process.env.MONGODB_URI || 'mongodb://localhost/webdev2';
 var port = process.env.PORT || 3000;
-console.log(`bd uri ${BD_URI}`);
-console.log(`servr port ${port}`);
+
 mongoose.connect(
     BD_URI, 
     { useMongoClient: true }
@@ -146,7 +145,12 @@ app.delete('/categories/:id', function(req, resp){
         err=>resp.sendStatus(500)
     );
 });
-
+app.get('/items/:id', function(req, resp){
+    Item.findOne({_id:req.params.id}).exec().then(
+        res=>resp.json(res),
+        err=>resp.sendStatus(500)
+    );
+});
 app.get('/items', function(req, resp){
     Item.find().exec().then(
         res=>resp.json(res),
