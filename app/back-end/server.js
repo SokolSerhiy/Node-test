@@ -7,8 +7,12 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
 mongoose.Promise = global.Promise;
+var BD_URI = process.env.MONGODB_URI || 'mongodb://localhost/webdev2';
+var port = process.env.PORT || 3000;
+console.log(`bd uri ${BD_URI}`);
+console.log(`servr port ${port}`);
 mongoose.connect(
-    'mongodb://localhost/webdev2', 
+    BD_URI, 
     { useMongoClient: true }
 );
 var db = mongoose.connection;
@@ -175,6 +179,6 @@ app.delete('/items/:id', function(req, resp){
     );
 });
 
-app.listen(3000, function(){
-    console.log('Server listen port 3000');
+app.listen(port, function(){
+    console.log(`Server listen port ${port}`);
 });
