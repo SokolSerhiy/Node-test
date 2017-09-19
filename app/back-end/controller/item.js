@@ -1,5 +1,6 @@
+var app = require('../configuration/app').app;
+var Item = require('../model/item');
 
-module.exports = function(app, Item){
     app.get('/items/:id', function(req, resp){
         Item.findOne({_id:req.params.id}).exec().then(
             res=>resp.json(res),
@@ -37,4 +38,3 @@ module.exports = function(app, Item){
             err=>resp.sendStatus(500)
         );
     });
-}

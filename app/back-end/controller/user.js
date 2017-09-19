@@ -1,26 +1,19 @@
-var bcrypt = require('bcryptjs');
-
-module.exports = function(app, User, preAuth){
+var app = require('../configuration/app').app;
+var User = require('../model/user');
+var preAuth = require('../configuration/middleware').preAuth;
     app.post('/current/user', preAuth, function(req, resp){
         resp.json(req.session.user);
     });
     app.post('/registration', function(req, resp){
         var user = new User(req.body);
-        var error = user.validate(function(err){
-            if(err.errors&&err.errors.login){
+        user.validate(function(err){
+            if(err&&err.errors.login){
                 resp.sendStatus(400);
             }else{
-                bcrypt.genSalt(10, function(err, salt){
-                    if(err) err=>resp.sendStatus(500);
-                    bcrypt.hash(user.password, salt, function(err, hash) {
-                        if(err) err=>resp.sendStatus(500);
-                        user.password = hash;
-                        user.save().then(
-                            res=>resp.sendStatus(204),
-                            err=>resp.sendStatus(500)
-                        );
-                    });
-                });
+                user.save().then(
+                    res=>resp.sendStatus(204),
+                    err=>resp.sendStatus(500)
+                );
             }
         });
     });
@@ -28,7 +21,8 @@ module.exports = function(app, User, preAuth){
     app.post('/login', function(req, resp){
         User.findOne({login:req.body.login}).exec().then(
             user=>{
-                bcrypt.compare(req.body.password, user.password).then(
+                if(!user) resp.sendStatus(401);
+                user.checkPassword(req.body.password).then(
                     res=>{
                         if(res){
                             req.session.user = user;
@@ -37,10 +31,9 @@ module.exports = function(app, User, preAuth){
                             resp.sendStatus(401);
                         }
                     },
-                    err=>resp.sendStatus(401)
+                    err=>console.log(err)
                 );
             },
-            err=>resp.sendStatus(401)
+            err=>console.log(err)
         );
     });
-}

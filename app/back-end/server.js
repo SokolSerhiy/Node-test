@@ -1,12 +1,4 @@
-var config = require('./configuration/app');
-var app = config.app;
-var express = config.express;
-var mongoose = require('./configuration/mongoose');
-var Category = require('./model/category')(mongoose);
-var Item = require('./model/item')(mongoose);
-var User = require('./model/user')(mongoose);
-var middleware = require('./configuration/middleware')(app, express);
-var preAuth = middleware.preAuth;
-require('./controller/item')(app, Item);
-require('./controller/category')(app, Category ,Item);
-require('./controller/user')(app, User, preAuth);
+require('./configuration/middleware');
+require('./controller/user');
+require('./controller/item');
+require('./controller/category');
