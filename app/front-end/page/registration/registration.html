@@ -1,4 +1,5 @@
 <h2>Registration</h2>
+<p ng-if="ctrl.message" style="color: red">{{ctrl.message}}</p>
 <form ng-model="ctrl.request" ng-submit="ctrl.save(ctrl.request)">
     <input ng-model="ctrl.request.login"><br>
     <input ng-model="ctrl.request.password" type="password"><br>

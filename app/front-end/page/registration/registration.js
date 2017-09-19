@@ -3,7 +3,13 @@ app.controller('registrationCtrl', function($http, $location){
     vm.save = function(request){
         $http.post('/registration', request).then(
             ()=>$location.url('/login'),
-            (err)=>console.log('err')
+            (err)=>{
+                if(err.status===400){
+                    vm.message = 'Alredy exist';
+                }else{
+                    console.log(err);
+                }
+            }
         );
     }
 });
