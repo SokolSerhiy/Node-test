@@ -8,14 +8,14 @@ app.controller('categoryCtrl', function($http){
             .then(createCategories, errHandler);
     }
     vm.refresh();
-    vm.save = function(){
-        if (vm.currentCategory._id) {
+    vm.save = function(category){
+        if (category._id) {
             $http.put(
-                '/categories/'+vm.currentCategory._id,
-                vm.currentCategory)
-                .then(updateCategory(vm.currentCategory), errHandler);
+                '/categories/'+category._id,
+                category)
+                .then(updateCategory(category), errHandler);
         } else {
-            $http.post('/categories', vm.currentCategory)
+            $http.post('/categories', category)
             .then(addCategory, errHandler);
         }
         vm.currentCategory = {};

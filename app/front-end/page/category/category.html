@@ -1,8 +1,11 @@
 <h2>Category</h2>
 <div>
-    <form>
-        <input ng-model="ctrl.currentCategory.name">
-        <button ng-click="ctrl.save()">Save</button>
+    <form name="category" novalidate ng-model="ctrl.currentCategory" ng-submit="ctrl.save(ctrl.currentCategory)">
+        <input name="name" ng-model="ctrl.currentCategory.name" required="">
+        <span ng-show="category.name.$error.required && category.name.$touched">
+            Enter category name
+        </span>
+        <button ng-disabled="category.$invalid" type="submit">Save</button>
         <button ng-click="ctrl.cancel()">Cancel</button>
     </form>
 </div>

@@ -3,7 +3,7 @@ var mongoose = require('../configuration/mongoose');
 var userSchema = mongoose.Schema({
     login:{
         type:String,
-        unique:[true, 'Такий логін вже існує'],
+        unique:true,
         required: [true, 'Потрібно заповнити обов`язково!!!'],
         validate: {
             isAsync: true,
