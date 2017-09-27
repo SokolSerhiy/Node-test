@@ -40,11 +40,12 @@ userSchema.methods.checkPassword = function(password){
     return bcrypt.compare(password, self.password);
 }
 var User = mongoose.model('users', userSchema);
-User.findOne({name:'admin'}).exec().then(
+User.findOne({login:'admin'}).exec().then(
     res=>{
         if(!res){
             new User({login:'admin', password:'admin', role:'admin'}).save();
         }
     }
 );
+User.find({}).exec().then(res=>console.log(res));
 module.exports = User;
