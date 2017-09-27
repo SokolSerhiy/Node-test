@@ -22,10 +22,14 @@ var userSchema = mongoose.Schema({
             }
         }
     },
-    password:String
+    password:String,
+    role:String
 });
 userSchema.pre('save', function(next, done){
     var self = this;
+    if(!self.role){
+        self.role = 'user';
+    }
     bcrypt.hash(self.password, 10).then(
         res=>{self.password=res; next();},
         err=>console.log(err)
@@ -36,4 +40,11 @@ userSchema.methods.checkPassword = function(password){
     return bcrypt.compare(password, self.password);
 }
 var User = mongoose.model('users', userSchema);
+User.findOne({name:'admin'}).exec().then(
+    res=>{
+        if(!res){
+            new User({login:'admin', password:'admin', role:'admin'}).save();
+        }
+    }
+);
 module.exports = User;
